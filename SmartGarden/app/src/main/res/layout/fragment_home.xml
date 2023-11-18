@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".HomeFragment">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayoutAir"
+                            android:layout_width="370dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginTop="30dp"
+                            android:padding="10dp"
+                            android:background="@drawable/bg_popup_spinner_devices">
+
+                                <TextView
+                                    android:id="@+id/airLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentAirLabel"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:textSize="24sp"
+                                    android:textColor="@color/light_green"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/temperatureAirLayout"/>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/temperatureAirLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/airLabel"
+                                    app:layout_constraintBottom_toBottomOf="parent">
+
+                                        <ImageView
+                                            android:id="@+id/imageViewAirTemperature"
+                                            android:layout_width="30dp"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/thermometer"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toStartOf="@+id/textAirTemperatureValue"
+                                            app:layout_constraintBottom_toTopOf="@+id/textAirTemperatureLabel"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textAirTemperatureValue"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextValEmpty"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="28sp"
+                                            app:layout_constraintStart_toEndOf="@+id/imageViewAirTemperature"
+                                            app:layout_constraintTop_toTopOf="parent"
+                                            app:layout_constraintEnd_toStartOf="@+id/textViewAirTemperatureDegree"
+                                            app:layout_constraintBottom_toTopOf="@+id/textAirTemperatureLabel" />
+
+                                        <TextView
+                                            android:id="@+id/textViewAirTemperatureDegree"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextViewTemperatureDegreeMetric"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="28sp"
+                                            app:layout_constraintTop_toTopOf="parent"
+                                            app:layout_constraintStart_toEndOf="@+id/textAirTemperatureValue"
+                                            app:layout_constraintBottom_toTopOf="@+id/textAirTemperatureLabel"/>
+
+                                        <TextView
+                                            android:id="@+id/textAirTemperatureLabel"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextTemperatureLabel"
+                                            android:textSize="16sp"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/textAirTemperatureValue" />
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/humidityAirLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/airLabel"
+                                    app:layout_constraintBottom_toBottomOf="parent">
+
+                                        <ImageView
+                                            android:id="@+id/imageViewAirHumidity"
+                                            android:layout_width="30dp"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/humidity"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toStartOf="@+id/textAirHumidityValue"
+                                            app:layout_constraintBottom_toTopOf="@+id/textAirHumidityLabel"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textAirHumidityValue"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextValEmpty"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="28sp"
+                                            android:layout_marginStart="10dp"
+                                            android:layout_marginEnd="8dp"
+                                            app:layout_constraintStart_toEndOf="@+id/imageViewAirHumidity"
+                                            app:layout_constraintTop_toTopOf="parent"
+                                            app:layout_constraintEnd_toStartOf="@+id/textViewHumidityPercent"
+                                            app:layout_constraintBottom_toTopOf="@+id/textAirHumidityLabel" />
+
+                                        <TextView
+                                            android:id="@+id/textViewHumidityPercent"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextViewPercent"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="28sp"
+                                            app:layout_constraintTop_toTopOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toEndOf="@+id/textAirHumidityValue"
+                                            app:layout_constraintBottom_toTopOf="@+id/textAirHumidityLabel" />
+
+                                        <TextView
+                                            android:id="@+id/textAirHumidityLabel"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextAirHumidityLabel"
+                                            android:textSize="16sp"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/textAirHumidityValue"
+                                            app:layout_constraintEnd_toEndOf="parent" />
+
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/ConstraintLayoutWater"
+                            android:layout_width="370dp"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="20dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/constraintLayoutAir"
+                            android:padding="10dp"
+                            android:background="@drawable/bg_popup_spinner_devices">
+
+                                <TextView
+                                    android:id="@+id/waterLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentWaterLabel"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:textSize="24sp"
+                                    android:textColor="@color/light_green"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/constraintLayoutWater"
+                                    android:layout_width="180dp"
+                                    android:layout_height="180dp"
+                                    android:padding="10dp"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/waterLabel"
+                                    android:background="@drawable/bg_popup_spinner_devices">
+
+                                        <TextView
+                                            android:id="@+id/waterLevelLabel"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentLabelPumpWaterLevel"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="18sp"
+                                            android:layout_marginEnd="5dp"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/waterLevelMaxLabel"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentWaterLevelMaxLabel"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            android:layout_marginStart="5dp"
+                                            app:layout_constraintStart_toEndOf="@+id/progressBarWaterLevel"
+                                            app:layout_constraintTop_toTopOf="@+id/progressBarWaterLevel"
+                                            app:layout_constraintBottom_toTopOf="@+id/progressBarWaterLevel"/>
+
+                                        <TextView
+                                            android:id="@+id/waterLevelMinLabel"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentWaterLevelMinLabel"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            android:layout_marginStart="5dp"
+                                            app:layout_constraintStart_toEndOf="@+id/progressBarWaterLevel"
+                                            app:layout_constraintTop_toBottomOf="@+id/progressBarWaterLevel"
+                                            app:layout_constraintBottom_toBottomOf="@+id/progressBarWaterLevel"/>
+
+                                        <ProgressBar
+                                            android:id="@+id/progressBarWaterLevel"
+                                            style="?android:attr/progressBarStyleHorizontal"
+                                            android:layout_width="100dp"
+                                            android:layout_height="80dp"
+                                            android:progress="0"
+                                            android:max="100"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginEnd="10dp"
+                                            android:progressDrawable="@drawable/progress_drawable_vertical"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/waterLevelLabel" />
+
+                                        <!--code for wave animation -->
+                                        <com.scwang.wave.MultiWaveHeader
+                                            android:id="@+id/waveHeader"
+                                            android:layout_width="100dp"
+                                            android:layout_height="1dp"
+                                            android:scaleY="-1"
+                                            app:mwhVelocity="1"
+                                            app:mwhProgress="1"
+                                            app:mwhStartColor="@color/pale_blue"
+                                            app:mwhCloseColor="@color/blue"
+                                            app:mwhWaveHeight="4dp"
+                                            app:layout_constraintBottom_toBottomOf="@id/progressBarWaterLevel"
+                                            app:layout_constraintStart_toStartOf="@+id/progressBarWaterLevel"
+                                            app:layout_constraintEnd_toEndOf="@+id/progressBarWaterLevel" />
+
+                                        <TextView
+                                            android:id="@+id/waterLevelStatus"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="20sp"
+                                            android:text="@string/homeFragmentTextValEmpty"
+                                            android:layout_marginEnd="8dp"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/progressBarWaterLevel"/>
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                                <androidx.constraintlayout.widget.ConstraintLayout
+                                    android:id="@+id/temperatureWaterLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginStart="20dp"
+                                    app:layout_constraintStart_toEndOf="@+id/constraintLayoutWater"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/waterLabel">
+
+                                        <ImageView
+                                            android:id="@+id/imageViewTempWater"
+                                            android:layout_width="70dp"
+                                            android:layout_height="70dp"
+                                            android:src="@drawable/soil_moisture"
+                                            app:layout_constraintEnd_toStartOf="@+id/textSoilMoistureValue"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent"
+                                            />
+                                        <!-- app:layout_constraintBottom_toTopOf="@+id/textWaterTemperatureLabel" -->
+
+                                        <TextView
+                                            android:id="@+id/textSoilMoistureValue"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextValEmpty"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="30sp"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginStart="10dp"
+                                            app:layout_constraintStart_toEndOf="@+id/imageViewTempWater"
+                                            app:layout_constraintTop_toTopOf="parent"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintEnd_toStartOf="@+id/textViewSoilMoistureDegree" />
+
+                                        <TextView
+                                            android:id="@+id/textViewSoilMoistureDegree"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextViewPercent"
+                                            android:fontFamily="@font/titillium_web_bold"
+                                            android:textSize="30sp"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintStart_toEndOf="@+id/textSoilMoistureValue"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+
+                                        <TextView
+                                            android:id="@+id/textSoilMoistureLabel"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/homeFragmentTextMoistureLabel"
+                                            android:textSize="18sp"
+                                            android:layout_marginTop="10dp"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/imageViewTempWater" />
+                                </androidx.constraintlayout.widget.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayoutLight"
+                            android:layout_width="180dp"
+                            android:layout_height="200dp"
+                            android:padding="10dp"
+                            android:layout_marginTop="20dp"
+                            app:layout_constraintStart_toStartOf="@+id/ConstraintLayoutWater"
+                            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutWater"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:background="@drawable/bg_popup_spinner_devices">
+
+                                <TextView
+                                    android:id="@+id/lightLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentLightLabel"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:textSize="24sp"
+                                    android:textColor="@color/light_green"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/lightSwitch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:thumb="@drawable/thumb_layerlist"
+                                    app:track="@drawable/bg_track"
+                                    android:textColor="@color/black"
+                                    android:checked="false"
+                                    android:enabled="false"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/lightSeekBar"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <ImageView
+                                    android:id="@+id/lightSeekBar"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/lighting"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintStart_toEndOf="@+id/lightTextValue"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/lightLabel" />
+
+                                <!-- android:paddingTop="8dp"
+                                    android:paddingBottom="10dp"-->
+                                <TextView
+                                    android:id="@+id/lightTextValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="30sp"
+                                    android:text="@string/homeFragmentTextValEmpty"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/lightLabel"/>
+
+                                <TextView
+                                    android:id="@+id/lightLEDText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentTextLDRStatus"
+                                    android:textSize="20sp"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    app:layout_constraintTop_toBottomOf="@+id/lightSeekBar"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/lightTextStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentTextValEmpty"
+                                    android:textSize="20sp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/lightLEDText"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/constraintLayoutWaterPump"
+                            android:layout_width="180dp"
+                            android:layout_height="200dp"
+                            android:padding="10dp"
+                            android:layout_marginTop="20dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/constraintLayoutLight"
+                            app:layout_constraintTop_toBottomOf="@+id/ConstraintLayoutWater"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:background="@drawable/bg_popup_spinner_devices">
+
+                                <TextView
+                                    android:id="@+id/waterPumpLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentWaterPumpLabel"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    android:textSize="24sp"
+                                    android:textColor="@color/light_green"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <androidx.appcompat.widget.SwitchCompat
+                                    android:id="@+id/waterPumpSwitch"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:thumb="@drawable/thumb_layerlist"
+                                    app:track="@drawable/bg_track"
+                                    android:checked="false"
+                                    android:enabled="false"
+                                    android:textColor="@color/black"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintBottom_toTopOf="@+id/waterPumpImageView"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <ImageView
+                                    android:id="@+id/waterPumpImageView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/water_pump"
+                                    android:layout_marginTop="10dp"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/waterPumpLabel" />
+
+                                <!-- android:paddingTop="8dp"
+                                    android:paddingBottom="10dp"-->
+                                <TextView
+                                    android:id="@+id/waterPumpText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="20sp"
+                                    android:text="@string/homeFragmentTextPumpStatus"
+                                    android:layout_marginTop="10dp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/waterPumpImageView"/>
+
+                                <TextView
+                                    android:id="@+id/waterPumpTextStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/homeFragmentTextValEmpty"
+                                    android:textSize="20sp"
+                                    android:fontFamily="@font/titillium_web_bold"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@+id/waterPumpText"/>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

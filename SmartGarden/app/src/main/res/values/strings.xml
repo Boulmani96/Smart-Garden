@@ -1,0 +1,55 @@
+<!--
+    Strings: <WHERE>/<HOW>_<DESCRIPTION>
+        <WHERE>_<DESCRIPTION>: to indicate where the String should be used
+        <HOW>_<DESCRIPTION>: to indicate why the String is used and a description with additional information
+        all__<DESCRIPTION>: all if the string is reused throughout the application
+
+    Example:
+        - <string name="dashboard_label_home">Home</string>: where= dashboard & how= label & home is description of the string.
+ -->
+
+<resources>
+    <string name="app_name">Smart Garden</string>
+    <string name="open">Open Navigation Drawer</string>
+    <string name="close">Close Navigation Drawer</string>
+
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+
+    <string name="unknown_device">Unknown device</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+    <string name="label_data">Data</string>
+    <string name="label_device_address">Device address</string>
+    <string name="label_device_name">Device name</string>
+    <string name="label_state">State</string>
+    <string name="no_data">No data</string>
+    <string name="spinner_devices">Spinner devices</string>
+
+    <!-- Home Fragment -->
+    <string name="homeFragmentAirLabel">Air</string>
+    <string name="homeFragmentWaterLabel">Water</string>
+    <string name="homeFragmentLightLabel">Light</string>
+    <string name="homeFragmentWaterPumpLabel">Pump</string>
+    <string name="homeFragmentLabelLightIntensity">Intensity</string>
+    <string name="homeFragmentLabelPumpWaterLevel">Water Level</string>
+    <string name="homeFragmentTextViewTemperatureDegreeMetric">°C</string>
+    <string name="homeFragmentTextViewTemperatureDegreeImperial">°F</string>
+    <string name="homeFragmentTextViewPercent">%</string>
+    <string name="homeFragmentTextTemperatureLabel">Temperature</string>
+    <string name="homeFragmentTextAirHumidityLabel">Humidity</string>
+    <string name="homeFragmentTextMoistureLabel">Soil Moisture</string>
+    <string name="homeFragmentTextAirTemperatureValue">--</string>
+    <string name="homeFragmentLDRLabel">LDR</string>
+    <string name="homeFragmentTextLDRStatus">The LED is</string>
+    <string name="homeFragmentTextON">ON</string>
+    <string name="homeFragmentTextOFF">OFF</string>
+    <string name="homeFragmentWaterLevelMaxLabel">max</string>
+    <string name="homeFragmentWaterLevelMinLabel">min</string>
+    <string name="homeFragmentTextPumpStatus">The pump is</string>
+    <string name="homeFragmentTextValEmpty">--</string>
+
+    <!-- Bottom Navigation -->
+    <string name="bottomNavMenuHomeTitle">Home</string>
+
+</resources>

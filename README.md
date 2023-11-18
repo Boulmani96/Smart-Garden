@@ -6,3 +6,4 @@ Additionally, the prototype has an interface that allows the user to view the da
 
 ![Software_Abbildung](https://github.com/Boulmani96/Smart-Garden/assets/74252189/7b4760e6-1112-498e-9435-74518aa328ca)
 # SystemFlussdiagramm
+![Diagram drawio](https://github.com/Boulmani96/Smart-Garden/assets/74252189/807a9655-8f7b-40bb-acbc-2bcc2851a71d)

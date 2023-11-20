@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
 
         lightSwitch = view.findViewById(R.id.lightSwitch);
 
-        // Create a Runnable to turn off the switch after 3 seconds
+        // Create a Runnable to turn off the switch after 2 seconds
         Runnable runnable = () -> lightSwitch.setChecked(false);
 
         lightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
@@ -156,8 +156,8 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
                     lightTextStatus.setText(R.string.homeFragmentTextON);
                     lightTextStatus.setTextColor(getResources().getColor(R.color.green));
                 }
-                // Use the Handler to delay the Runnable by 3 seconds
-                handler.postDelayed(runnable, 3000); // 3000 milliseconds = 3 seconds
+                // Use the Handler to delay the Runnable by 2 seconds
+                handler.postDelayed(runnable, 2000); // 2000 milliseconds = 2 seconds
             }else{
                 if (characteristic != null) {
                     String dataToSend = "OFF";
@@ -183,8 +183,8 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
                     waterPumpTextStatus.setText(R.string.homeFragmentTextON);
                     waterPumpTextStatus.setTextColor(getResources().getColor(R.color.green));
                 }
-                // Use the Handler to delay the Runnable by 3 seconds
-                handler.postDelayed(runnable1, 3000); // 3000 milliseconds = 3 seconds
+                // Use the Handler to delay the Runnable by 2 seconds
+                handler.postDelayed(runnable1, 2000); // 2000 milliseconds = 2 seconds
             }else{
                 if (characteristic != null) {
                     String dataToSend = "OFF";

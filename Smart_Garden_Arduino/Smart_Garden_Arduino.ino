@@ -4,7 +4,7 @@
 
 #include "DHT.h"
 
-#define DHTPIN 22       // Digital pin connected to the DHT sensor
+#define DHTPIN 5       // Digital pin connected to the DHT sensor
 #define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 
 #define LDR_PIN 14      // Digital pin connected to the LDR sensor
@@ -16,7 +16,6 @@
 #define MOISTURE_PIN 34 // AOUT pin of moisture sensor
 #define wet 3000
 #define dry 700
-
 #define echoPin 27 // Returned signal is recieved from pin 27
 #define trigPin 26 // Signal is send from pin 26
 int pingtime;      // Time to travel the signal
@@ -57,12 +56,12 @@ BLEServer* pServer = NULL;
 BLECharacteristic* temperatureCharacteristic = NULL;
 BLECharacteristic* humidityCharacteristic = NULL;
 BLECharacteristic* LEDStatusCharacteristic = NULL;
-BLECharacteristic *LEDControlCharacteristic = NULL;
-BLECharacteristic *LDRCharacteristic = NULL;
-BLECharacteristic *SoilMoistureCharacteristic = NULL;
-BLECharacteristic *WaterLevelCharacteristic = NULL;
+BLECharacteristic* LEDControlCharacteristic = NULL;
+BLECharacteristic* LDRCharacteristic = NULL;
+BLECharacteristic* SoilMoistureCharacteristic = NULL;
+BLECharacteristic* WaterLevelCharacteristic = NULL;
 BLECharacteristic* WaterPumpStatusCharacteristic = NULL;
-BLECharacteristic *WaterPumpControlCharacteristic = NULL;
+BLECharacteristic* WaterPumpControlCharacteristic = NULL;
 
 // Pointer to BLE2902 of Characteristics
 BLE2902 *pBLE2902_temperature;       
@@ -323,7 +322,7 @@ void loop() {
   double soilMoisture_pre = map(soilMoistureValue, wet, dry, 100, 0); // convert the soil moisture into percent
   soilMoisture_int = (int)soilMoisture_pre; // convert to int
 
-  if(soilMoisture_int <= 50) // If the soil moisture is below 50%, turn on the water pump.
+  if(soilMoisture_int <= 2) // If the soil moisture is below 50%, turn on the water pump.
   {
     digitalWrite(WATERPUMP_PIN, HIGH);
     delay(10); // Wait 10 milliseconds
@@ -346,6 +345,8 @@ void loop() {
   digitalWrite(trigPin,LOW);
 
   pingtime = pulseIn(echoPin, HIGH);
+  Serial.print("pingtime: ");
+  Serial.print(pingtime);
   distance = (pingtime*2)*0.03429;
   Serial.print("Distance: ");
   Serial.print(distance);
@@ -544,6 +545,5 @@ void loop() {
       // do stuff here on connecting
       oldDeviceConnected = deviceConnected;
   }
-  // Waiting 300 milliseconds
   delay(300);
 }

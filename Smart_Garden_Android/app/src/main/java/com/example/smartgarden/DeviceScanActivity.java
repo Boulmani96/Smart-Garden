@@ -39,7 +39,6 @@ public class DeviceScanActivity extends ListActivity {
 
     private final Handler handler = new Handler();
 
-    // Stops scanning after 10 seconds.
     private BluetoothDeviceAdapter bluetoothDeviceAdapter;
 
     Context context;
@@ -108,7 +107,7 @@ public class DeviceScanActivity extends ListActivity {
     }
 
     /**
-     * The interface used to deliver BLE scan results.
+     * The class used to deliver BLE scan results.
      */
     @SuppressLint("NewApi")
     private final ScanCallback leScanCallback = new ScanCallback() {

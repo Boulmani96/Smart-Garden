@@ -142,57 +142,61 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
 
         lightSwitch = view.findViewById(R.id.lightSwitch);
 
-        // Create a Runnable to turn off the switch after 2 seconds
-        Runnable runnable = () -> lightSwitch.setChecked(false);
-
         lightSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            BluetoothGattCharacteristic characteristic = mCustomService.getCharacteristic(UUID.fromString("50fdb428-6ce1-11ee-b962-0242ac120002"));
-            if (b){
-                if (characteristic != null) {
-                    String dataToSend = "ON";
-                    byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
-                    characteristic.setValue(dataBytes);
-                    gatt.writeCharacteristic(characteristic);
-                    lightTextStatus.setText(R.string.homeFragmentTextON);
-                    lightTextStatus.setTextColor(getResources().getColor(R.color.green));
+            if (lightSwitch.isEnabled()) {
+                Runnable runnable = () -> lightSwitch.setChecked(false);
+                BluetoothGattCharacteristic characteristic = mCustomService.getCharacteristic(UUID.fromString("50fdb428-6ce1-11ee-b962-0242ac120002"));
+                // Create a Runnable to turn off the switch after 2 seconds
+                if (b) {
+                    if (characteristic != null) {
+                        String dataToSend = "ON";
+                        byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
+                        characteristic.setValue(dataBytes);
+                        gatt.writeCharacteristic(characteristic);
+                        lightTextStatus.setText(R.string.homeFragmentTextON);
+                        lightTextStatus.setTextColor(getResources().getColor(R.color.green));
+                    }
+                    // Use the Handler to delay the Runnable by seconds
+                    handler.postDelayed(runnable, 2000); // 2000 milliseconds = 2 seconds
                 }
-                // Use the Handler to delay the Runnable by 2 seconds
-                handler.postDelayed(runnable, 2000); // 2000 milliseconds = 2 seconds
-            }else{
-                if (characteristic != null) {
-                    String dataToSend = "OFF";
-                    byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
-                    characteristic.setValue(dataBytes);
-                    gatt.writeCharacteristic(characteristic);
-                    lightTextStatus.setText(R.string.homeFragmentTextOFF);
-                    lightTextStatus.setTextColor(getResources().getColor(R.color.red));
+                else {
+                    if (characteristic != null) {
+                        String dataToSend = "OFF";
+                        byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
+                        characteristic.setValue(dataBytes);
+                        gatt.writeCharacteristic(characteristic);
+                        lightTextStatus.setText(R.string.homeFragmentTextOFF);
+                        lightTextStatus.setTextColor(getResources().getColor(R.color.red));
+                    }
                 }
             }
         });
 
         waterPumpSwitch = view.findViewById(R.id.waterPumpSwitch);
-        Runnable runnable1 = () -> waterPumpSwitch.setChecked(false);
         waterPumpSwitch.setOnCheckedChangeListener((compoundButton, b) -> {
-            BluetoothGattCharacteristic characteristic = mCustomService.getCharacteristic(UUID.fromString("54da7e24-7005-11ee-b962-0242ac120002"));
-            if (b){
-                if (characteristic != null) {
-                    String dataToSend = "ON";
-                    byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
-                    characteristic.setValue(dataBytes);
-                    gatt.writeCharacteristic(characteristic);
-                    waterPumpTextStatus.setText(R.string.homeFragmentTextON);
-                    waterPumpTextStatus.setTextColor(getResources().getColor(R.color.green));
-                }
-                // Use the Handler to delay the Runnable by 2 seconds
-                handler.postDelayed(runnable1, 2000); // 2000 milliseconds = 2 seconds
-            }else{
-                if (characteristic != null) {
-                    String dataToSend = "OFF";
-                    byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
-                    characteristic.setValue(dataBytes);
-                    gatt.writeCharacteristic(characteristic);
-                    waterPumpTextStatus.setText(R.string.homeFragmentTextOFF);
-                    waterPumpTextStatus.setTextColor(getResources().getColor(R.color.red));
+            if (waterPumpSwitch.isEnabled()){
+                Runnable runnable1 = () -> waterPumpSwitch.setChecked(false);
+                BluetoothGattCharacteristic characteristic = mCustomService.getCharacteristic(UUID.fromString("54da7e24-7005-11ee-b962-0242ac120002"));
+                if (b){
+                    if (characteristic != null) {
+                        String dataToSend = "ON";
+                        byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
+                        characteristic.setValue(dataBytes);
+                        gatt.writeCharacteristic(characteristic);
+                        waterPumpTextStatus.setText(R.string.homeFragmentTextON);
+                        waterPumpTextStatus.setTextColor(getResources().getColor(R.color.green));
+                    }
+                    // Use the Handler to delay the Runnable by 2 seconds
+                    handler.postDelayed(runnable1, 2000); // 2000 milliseconds = 2 seconds
+                } else{
+                    if (characteristic != null) {
+                        String dataToSend = "OFF";
+                        byte[] dataBytes = dataToSend.getBytes(StandardCharsets.UTF_8);
+                        characteristic.setValue(dataBytes);
+                        gatt.writeCharacteristic(characteristic);
+                        waterPumpTextStatus.setText(R.string.homeFragmentTextOFF);
+                        waterPumpTextStatus.setTextColor(getResources().getColor(R.color.red));
+                    }
                 }
             }
         });
@@ -401,15 +405,23 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
                 textViewAirHumidityValue.setText(humidity);
             }
 
+            if (LDR_Photoresistor != null){
+                lightTextValue.setText(LDR_Photoresistor);
+            }
+
             if (ledStatus != null) {
                 if (ledStatus.equals("ON")){
                     lightTextStatus.setText(R.string.homeFragmentTextON);
                     lightTextStatus.setTextColor(getResources().getColor(R.color.green));
+                    lightSwitch.setEnabled(false);
+                    // lightSwitch.setTrackResource(R.drawable.bged_track);
                     lightSwitch.setChecked(true);
                 }else{
                     if (ledStatus.equals("OFF")){
                         lightTextStatus.setText(R.string.homeFragmentTextOFF);
                         lightTextStatus.setTextColor(getResources().getColor(R.color.red));
+                        lightSwitch.setEnabled(true);
+                        // lightSwitch.setTrackResource(R.drawable.bg_track);
                         lightSwitch.setChecked(false);
                     }
                 }
@@ -419,18 +431,16 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
                 if (waterPumpStatus.equals("ON")){
                     waterPumpTextStatus.setText(R.string.homeFragmentTextON);
                     waterPumpTextStatus.setTextColor(getResources().getColor(R.color.green));
+                    waterPumpSwitch.setEnabled(false);
                     waterPumpSwitch.setChecked(true);
                 }else{
                     if (waterPumpStatus.equals("OFF")){
                         waterPumpTextStatus.setText(R.string.homeFragmentTextOFF);
                         waterPumpTextStatus.setTextColor(getResources().getColor(R.color.red));
+                        waterPumpSwitch.setEnabled(true);
                         waterPumpSwitch.setChecked(false);
                     }
                 }
-            }
-
-            if (LDR_Photoresistor != null){
-                lightTextValue.setText(LDR_Photoresistor);
             }
 
             if (soilMoisture != null) {
@@ -474,8 +484,8 @@ public class HomeFragment extends Fragment implements BluetoothLeServiceListener
     private void setTextViewValue() {
         textAirTemperatureValue.setText("--");
         textViewAirHumidityValue.setText("--");
-        lightTextStatus.setText("--");
         lightTextValue.setText("--");
+        lightTextStatus.setText("--");
         textSoilMoistureValue.setText("--");
         waterPumpTextStatus.setText("--");
         lightSwitch.setEnabled(false);

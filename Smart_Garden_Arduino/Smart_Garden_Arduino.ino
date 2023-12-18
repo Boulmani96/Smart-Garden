@@ -55,9 +55,9 @@ DHT dht(DHTPIN, DHTTYPE);     // Initialize DHT sensor.
 BLEServer* pServer = NULL;
 BLECharacteristic* temperatureCharacteristic = NULL;
 BLECharacteristic* humidityCharacteristic = NULL;
+BLECharacteristic* LDRCharacteristic = NULL;
 BLECharacteristic* LEDStatusCharacteristic = NULL;
 BLECharacteristic* LEDControlCharacteristic = NULL;
-BLECharacteristic* LDRCharacteristic = NULL;
 BLECharacteristic* SoilMoistureCharacteristic = NULL;
 BLECharacteristic* WaterLevelCharacteristic = NULL;
 BLECharacteristic* WaterPumpStatusCharacteristic = NULL;
@@ -65,9 +65,9 @@ BLECharacteristic* WaterPumpControlCharacteristic = NULL;
 
 // Pointer to BLE2902 of Characteristics
 BLE2902 *pBLE2902_temperature;       
-BLE2902 *pBLE2902_humidity;                            
-BLE2902 *pBLE2902_ledStatus;                              
+BLE2902 *pBLE2902_humidity; 
 BLE2902 *pBLE2902_LDR;                              
+BLE2902 *pBLE2902_ledStatus;                              
 BLE2902 *pBLE2902_moisture; 
 BLE2902 *pBLE2902_waterLevel; 
 BLE2902 *pBLE2902_waterPumpStatus; 
@@ -118,6 +118,13 @@ void setup(void) {
                       BLECharacteristic::PROPERTY_WRITE  |
                       BLECharacteristic::PROPERTY_NOTIFY 
                     );
+  // Create a BLE LDR Characteristic
+  LDRCharacteristic = pService->createCharacteristic(
+                      CHARACTERISTIC_UUID_LDR_PHOTORESISTOR,
+                      BLECharacteristic::PROPERTY_READ   |
+                      BLECharacteristic::PROPERTY_WRITE  |
+                      BLECharacteristic::PROPERTY_NOTIFY
+                    );
   // Create a BLE LED Status Characteristic
   LEDStatusCharacteristic = pService->createCharacteristic(
                       CHARACTERISTIC_UUID_LED_STATUS,
@@ -151,13 +158,6 @@ void setup(void) {
                       BLECharacteristic::PROPERTY_WRITE  |
                       BLECharacteristic::PROPERTY_NOTIFY
                     );
-  // Create a BLE LDR Characteristic
-  LDRCharacteristic = pService->createCharacteristic(
-                      CHARACTERISTIC_UUID_LDR_PHOTORESISTOR,
-                      BLECharacteristic::PROPERTY_READ   |
-                      BLECharacteristic::PROPERTY_WRITE  |
-                      BLECharacteristic::PROPERTY_NOTIFY
-                    );
   // Create a BLE Water Level Characteristic
   WaterLevelCharacteristic = pService->createCharacteristic(
                       CHARACTERISTIC_UUID_WATERLEVEL,
@@ -180,13 +180,13 @@ void setup(void) {
   pBLE2902_humidity->setNotifications(true);
   humidityCharacteristic->addDescriptor(pBLE2902_humidity);
 
-  pBLE2902_ledStatus = new BLE2902();
-  pBLE2902_ledStatus->setNotifications(true);
-  LEDStatusCharacteristic->addDescriptor(pBLE2902_ledStatus);
-
   pBLE2902_LDR = new BLE2902();
   pBLE2902_LDR->setNotifications(true);
   LDRCharacteristic->addDescriptor(pBLE2902_LDR);
+
+  pBLE2902_ledStatus = new BLE2902();
+  pBLE2902_ledStatus->setNotifications(true);
+  LEDStatusCharacteristic->addDescriptor(pBLE2902_ledStatus);
 
   pBLE2902_moisture = new BLE2902();
   pBLE2902_moisture->setNotifications(true);
@@ -303,7 +303,11 @@ void loop() {
   Serial.println(h, 1);
   
   LDR_value = 4095-analogRead(LDR_PIN); // light intensity
-
+  if (LDR_value < 0 || LDR_value > 4095) {
+    Serial.println(F("Failed to read from LDR sensor!"));
+    return;
+  }
+  
   if(LDR_value < 900)
   {
     digitalWrite(LED_PIN, HIGH);  // The LED turns ON in Dark.
@@ -319,10 +323,14 @@ void loop() {
   Serial.println(LDR_value);
 
   soilMoistureValue = 4095-analogRead(MOISTURE_PIN); // read the analog value from sensor
+  if (soilMoistureValue < 0 || soilMoistureValue > 4095) {
+    Serial.println(F("Failed to read from Soil Moisture sensor!"));
+    return;
+  }
   double soilMoisture_pre = map(soilMoistureValue, wet, dry, 100, 0); // convert the soil moisture into percent
   soilMoisture_int = (int)soilMoisture_pre; // convert to int
 
-  if(soilMoisture_int <= 2) // If the soil moisture is below 50%, turn on the water pump.
+  if(soilMoisture_int <= 50) // If the soil moisture is below 50%, turn on the water pump.
   {
     digitalWrite(WATERPUMP_PIN, HIGH);
     delay(10); // Wait 10 milliseconds
@@ -345,10 +353,10 @@ void loop() {
   digitalWrite(trigPin,LOW);
 
   pingtime = pulseIn(echoPin, HIGH);
-  Serial.print("pingtime: ");
-  Serial.print(pingtime);
+  //Serial.print("pingtime: ");
+ // Serial.print(pingtime);
   distance = (pingtime*2)*0.03429;
-  Serial.print("Distance: ");
+  Serial.print(", Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
 
@@ -372,6 +380,7 @@ void loop() {
   tft.setTextSize(2);
   tft.setCursor(45, 260);
   tft.fillRect(45, 260, 100, 30, TFT_WHITE);  // Adjust x, y, width, and height as needed
+  tft.setTextColor(TFT_MAGENTA);
   if (14 <= distance) 
   {
     tft.setTextColor(TFT_CYAN);
@@ -402,6 +411,7 @@ void loop() {
     tft.print("Full");
     waterLevel = "Full";
   }
+
   Serial.print("Waterlevel: ");
   Serial.println(waterLevel.c_str());
 
@@ -434,7 +444,6 @@ void loop() {
   }
 
   // Water pump Status /(TFT_MAGENTA = Grün) / (TFT_CYAN = Red)
-  //tft.setTextColor(TFT_CYAN);
   tft.setCursor(225, 450);
   tft.fillRect(225, 450, 100, 30, TFT_WHITE);  // Adjust x, y, width, and height as needed
   if (digitalRead(WATERPUMP_PIN) == HIGH) 
@@ -447,49 +456,77 @@ void loop() {
       tft.setTextColor(TFT_CYAN);
       tft.print("OFF");
   } 
-
+  
   if (deviceConnected) {
-    char temperature[10]; // Buffer for temperature string
-    char humidity[10]; // Buffer for humidity string
+    uint8_t temperature[4]; // A float is 4 bytes in size
+    uint8_t humidity[4]; // A float is 4 bytes in size
 
-    // Convert float values to strings
-    dtostrf(t, 6, 2, temperature); // Convert temperature to string
-    dtostrf(h, 6, 2, humidity); // Convert humidity to string
-
+    // Convert the float value to a byte array
+    memcpy(temperature, &t, sizeof(t));
     // Notify the BLE client of the new temperature value
-    temperatureCharacteristic->setValue(temperature);
+    temperatureCharacteristic->setValue(temperature, 4);
     temperatureCharacteristic->notify();
 
-    // Notify the BLE client of the new humidity value
-    humidityCharacteristic->setValue(humidity);
+    memcpy(humidity, &h, sizeof(h));
+    humidityCharacteristic->setValue(humidity, 4); // Die Größe des Wertes ist 4
     humidityCharacteristic->notify();
+
+    // Notify the BLE client of the new LDR value
+    byte LDR_value_bytes[2]; // An integer is 2 bytes in size
+    // Convert the integer value to a byte array
+    LDR_value_bytes[0] = (LDR_value >> 8) & 0xFF;
+    LDR_value_bytes[1] = LDR_value & 0xFF;
+
+    // Set and send the value
+    LDRCharacteristic->setValue(LDR_value_bytes, 2);
+    LDRCharacteristic->notify();
 
     // Notify the BLE client of the new water level value
     WaterLevelCharacteristic->setValue(waterLevel);
     WaterLevelCharacteristic->notify();
 
-    // Notify the BLE client of the new LDR value
-    std::string ldr = String(LDR_value).c_str();
-    LDRCharacteristic->setValue(ldr);
-    LDRCharacteristic->notify();
-
     // Notify the BLE client of the new moisture value
-    std::string moisture = String(soilMoisture_int).c_str();
-    SoilMoistureCharacteristic->setValue(moisture);
+    byte soilMoisture_bytes[2];
+    soilMoisture_bytes[0] = (soilMoisture_int >> 8) & 0xFF;
+    soilMoisture_bytes[1] = soilMoisture_int & 0xFF;
+    SoilMoistureCharacteristic->setValue(soilMoisture_bytes, 2); // Die Größe des Wertes ist 2
     SoilMoistureCharacteristic->notify();
+
+    // Read the current status of the LED
+    bool currentLedStatus = digitalRead(LED_PIN);
+    int LEDStatus = currentLedStatus ? 1 : 0; // Convert current status to an integer
+    byte LEDStatus_bytes[2];
+    LEDStatus_bytes[0] = (LEDStatus >> 8) & 0xFF;
+    LEDStatus_bytes[1] = LEDStatus & 0xFF;
+    // Send to the client Android App the status of the LED
+    LEDStatusCharacteristic->setValue(LEDStatus_bytes, 2);
+    LEDStatusCharacteristic->notify();
+
+    // Read the current status of the water pump
+    bool currentWaterPumpStatus = digitalRead(WATERPUMP_PIN);
+    int waterPumpStatus = currentWaterPumpStatus ? 1 : 0; // Convert current status to an integer
+    byte waterPumpStatus_bytes[2];
+    waterPumpStatus_bytes[0] = (waterPumpStatus >> 8) & 0xFF;
+    waterPumpStatus_bytes[1] = waterPumpStatus & 0xFF;
+    // Send to the client Android App the status of the LED
+    WaterPumpStatusCharacteristic->setValue(waterPumpStatus_bytes, 2);
+    WaterPumpStatusCharacteristic->notify();
 
     // Get the command LED from the Android App
     std::string controlLEDValue = LEDControlCharacteristic->getValue();
     if (controlLEDValue.find("ON") != std::string::npos) 
     {
+      Serial.println("User Light ON");
       digitalWrite(LED_PIN, HIGH);
       tft.setCursor(55, 450);
       tft.fillRect(55, 450, 100, 30, TFT_WHITE);
       tft.setTextColor(TFT_MAGENTA);
       tft.print("ON");
+      delay(10);
     } 
     else if (controlLEDValue.find("OFF") != std::string::npos) 
     {
+      Serial.println("User Light OFF");
       digitalWrite(LED_PIN, LOW);
       tft.setCursor(55, 450);
       tft.fillRect(55, 450, 100, 30, TFT_WHITE);
@@ -501,35 +538,23 @@ void loop() {
     std::string controlPumpValue = WaterPumpControlCharacteristic->getValue();
     if (controlPumpValue.find("ON") != std::string::npos) 
     {
+      Serial.println("User Pump ON");
       digitalWrite(WATERPUMP_PIN, HIGH);
       tft.setCursor(225, 450);
       tft.fillRect(225, 450, 100, 30, TFT_WHITE);
       tft.setTextColor(TFT_MAGENTA);
       tft.print("ON");
+      delay(10);
     } 
     else if (controlPumpValue.find("OFF") != std::string::npos) 
     {
+      Serial.println("User Pump OFF");
       digitalWrite(WATERPUMP_PIN, LOW);
       tft.setCursor(225, 450);
       tft.fillRect(225, 450, 100, 30, TFT_WHITE);
       tft.setTextColor(TFT_CYAN);
       tft.print("OFF");
     }
-
-    // Read the current status of the LED
-    bool currentLedStatus = digitalRead(LED_PIN);
-
-    std::string LEDStatus = currentLedStatus ? "ON" : "OFF"; // Convert current status to a string
-    // Send to the client Android App the status of the LED
-    LEDStatusCharacteristic->setValue(LEDStatus);
-    LEDStatusCharacteristic->notify();
-
-    // Read the current status of the water pump
-    bool currentWaterPumpStatus = digitalRead(WATERPUMP_PIN);
-
-    std::string WaterPumpStatus = currentWaterPumpStatus ? "ON" : "OFF"; // Convert current status to a string
-    WaterPumpStatusCharacteristic->setValue(WaterPumpStatus);
-    WaterPumpStatusCharacteristic->notify();
   }
 
   // disconnecting
@@ -545,5 +570,5 @@ void loop() {
       // do stuff here on connecting
       oldDeviceConnected = deviceConnected;
   }
-  delay(300);
+  delay(400);
 }

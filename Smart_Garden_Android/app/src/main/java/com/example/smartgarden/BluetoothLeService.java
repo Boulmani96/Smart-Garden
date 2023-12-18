@@ -22,6 +22,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -407,58 +409,69 @@ public class BluetoothLeService extends Service {
 
         if (UUID_AIR_TEMPERATURE.equals(characteristic.getUuid())) {
             final byte[] data = characteristic.getValue();
-            String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG,  "Temperature: " + receivedString);
-            float temperatureFloat = Float.parseFloat(receivedString);
+            ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+            float temperatureFloat = buffer.getFloat();
+            Log.i(TAG, "Temperature: " + temperatureFloat);
             String formattedTemperature = String.format(Locale.US,"%.1f", temperatureFloat);
             intent.putExtra(EXTRA_DATA_TEMPERATURE, formattedTemperature);
         }
 
         if (UUID_AIR_HUMIDITY.equals(characteristic.getUuid())) {
             final byte[] data = characteristic.getValue();
-            String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG, "Humidity: " + receivedString);
-            float humidityFloat = Float.parseFloat(receivedString);
+            // Konvertieren Sie das Byte-Array zurück in einen Float
+            ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+            float humidityFloat = buffer.getFloat();
+            Log.i(TAG, "Humidity: " + humidityFloat);
             String formattedHumidity = String.format(Locale.US,"%.1f", humidityFloat);
             intent.putExtra(EXTRA_DATA_HUMIDITY, formattedHumidity);
         }
 
-        if (UUID_LED_STATUS.equals(characteristic.getUuid())) {
-            final byte[] data = characteristic.getValue();
-            String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG, "LED Status: " + receivedString);
-            intent.putExtra(EXTRA_DATA_LED_STATUS, receivedString);
-        }
-
         if (UUID_LDR_PHOTORESISTOR.equals(characteristic.getUuid())) {
             final byte[] data = characteristic.getValue();
-            String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG, "LDR PHOTORESISTOR: " + receivedString);
-            int ldr_photoresistor = Integer.parseInt(receivedString);
-            String formattedHumidity = Integer.toString(ldr_photoresistor);
-            intent.putExtra(EXTRA_DATA_LDR_PHOTORESISTOR, formattedHumidity);
+            int LDR_value = ((data[0] & 0xFF) << 8) | (data[1] & 0xFF);
+            String formattedLDR = Integer.toString(LDR_value);
+            intent.putExtra(EXTRA_DATA_LDR_PHOTORESISTOR, formattedLDR);
+        }
+
+        if (UUID_LED_STATUS.equals(characteristic.getUuid())) {
+            String LED_status = null;
+            final byte[] data = characteristic.getValue();
+            int LED_value = ((data[0] & 0xFF) << 8) | (data[1] & 0xFF);
+            if (LED_value == 1){
+                LED_status = "ON";
+            }else{
+                if (LED_value == 0){
+                    LED_status = "OFF";
+                }
+            }
+            intent.putExtra(EXTRA_DATA_LED_STATUS, LED_status);
         }
 
         if (UUID_SOIL_MOISTURE.equals(characteristic.getUuid())) {
             final byte[] data = characteristic.getValue();
-            String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG, "Soil Moisture: " + receivedString);
-            int soilMoisture = Integer.parseInt(receivedString);
+            int soilMoisture = ((data[0] & 0xFF) << 8) | (data[1] & 0xFF);
             String formattedSoilMoisture = Integer.toString(soilMoisture);
             intent.putExtra(EXTRA_DATA_SOIL_MOISTURE, formattedSoilMoisture);
         }
 
         if (UUID_WATER_PUMP_STATUS.equals(characteristic.getUuid())) {
+            String waterPump_status = null;
             final byte[] data = characteristic.getValue();
-            String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG, "Water Pump Status: " + receivedString);
-            intent.putExtra(EXTRA_DATA_WATER_PUMP_STATUS, receivedString);
+            int waterPump_value = ((data[0] & 0xFF) << 8) | (data[1] & 0xFF);
+            if (waterPump_value == 1){
+                waterPump_status = "ON";
+            }else{
+                if (waterPump_value == 0){
+                    waterPump_status = "OFF";
+                }
+            }
+            intent.putExtra(EXTRA_DATA_WATER_PUMP_STATUS, waterPump_status);
         }
 
         if (UUID_WATER_LEVEL.equals(characteristic.getUuid())) {
             final byte[] data = characteristic.getValue();
             String receivedString = new String(data); // Convert byte array to string
-            Log.i(TAG, "Water Level: " + receivedString);
+            // Log.i(TAG, "Water Level: " + receivedString);
             intent.putExtra(EXTRA_DATA_WATER_LEVEL, receivedString);
         }
         sendBroadcast(intent);

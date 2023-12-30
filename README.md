@@ -8,4 +8,5 @@ Additionally, the prototype has an interface that allows the user to view the da
 # Flow diagram
 ![Diagramm drawio](https://github.com/Boulmani96/Smart-Garden/assets/74252189/dc19e00c-a363-4231-8677-03ad46e9a8ba)
 
-Communication between components
+# Communication between components
+![System_Diagram](https://github.com/Boulmani96/Smart-Garden/assets/74252189/225ecb3f-78cb-4f8e-afcf-57282b76d0c3)

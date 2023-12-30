@@ -1,4 +1,7 @@
 # Smart-Garden
+# Abstract
+This project deals with the development of a smart garden system for the automation of lighting and irrigation. Plant growth is a complex process that is influenced by a variety of environmental factors, such as light, water, temperature and humidity. An optimal growth of plants requires a precise and individually adapted supply of these factors. Traditionally, plant care and monitoring were often characterized by manual interventions and experiences. The development of smart garden systems has the potential to eliminate this problem. These systems use sensors and actuators to capture environmental data in real time and perform automatic actions. In this way, they can monitor plant growth, control irrigation and lighting systems, optimize plant care.
+# Architecture of the software system
 - The system consists of two software components: C++ for the ESP32 server in the Arduino IDE and Java programming in Android Studio for the Android app.
 - The ESP32 server is responsible for managing the hardware components of the system, such as the sensors and actuators.
 - The Android app is responsible for the user interface and data visualization. It allows the user to display the sensor data, switch the LED plant lamp and the water pump on or off.

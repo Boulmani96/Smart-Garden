@@ -5,5 +5,7 @@ The prototype consists of a central control unit ESP32, which is connected to va
 Additionally, the prototype has an interface that allows the user to view the data in real time on an ILI9341 TFT LCD display or an Android app.
 
 ![Software_Abbildung](https://github.com/Boulmani96/Smart-Garden/assets/74252189/7b4760e6-1112-498e-9435-74518aa328ca)
-# System Flussdiagramm
+# Flow diagram
 ![Diagramm drawio](https://github.com/Boulmani96/Smart-Garden/assets/74252189/dc19e00c-a363-4231-8677-03ad46e9a8ba)
+
+Communication between components

@@ -1,6 +1,6 @@
 # Smart-Garden
 - The system consists of two software components: C++ for the ESP32 server in the Arduino IDE and Java programming in Android Studio for the Android app.
-- The system consists of two main software components, an ESP32 server and an Android app. The ESP32 server is responsible for managing the hardware components of the system, such as the sensors and actuators. The Android app is responsible 
+  The ESP32 server is responsible for managing the hardware components of the system, such as the sensors and actuators. The Android app is responsible 
   for the user interface and data visualization. It allows the user to display the sensor data, switch the LED plant lamp and the water pump on or off.
 ![Software_Abbildung](https://github.com/Boulmani96/Smart-Garden/assets/74252189/7b4760e6-1112-498e-9435-74518aa328ca)
 # Flow diagram

@@ -16,8 +16,9 @@ The actuators in this prototype make it possible to control the lighting and irr
 In addition, the prototype has an interface that allows the user to display the data in real time on an ILI9341 TFT LCD display or an Android app.
 
 # Demonstration of the developed prototype system
-The image shows the prototype in brightness. The LDR light sensor measures the brightness and controls the LED plant lamp. The pump switches on automatically when the soil moisture sensor reports that the soil is dry. The ultrasonic water level sensor shows how much water is in the tank. The Android app and the display show all data.
+- The image shows the prototype in brightness. The LDR light sensor measures the brightness and controls the LED plant lamp. The pump switches on automatically when the soil moisture sensor reports that the soil is dry. The ultrasonic water 
+  level sensor shows how much water is in the tank. The Android app and the display show all data.
 ![Helles Umgebungslicht](https://github.com/Boulmani96/Smart-Garden/assets/74252189/66ed9903-708e-475d-b063-f92011dd72a6)
 
-The image shows the prototype in the dark with the LED lighting activated. In this situation, the brightness sensor detects a low ambient brightness, which leads to the activation of the LED plant lamp.
+- The image shows the prototype in the dark with the LED lighting activated. In this situation, the brightness sensor detects a low ambient brightness, which leads to the activation of the LED plant lamp.
 ![Dunkles Umgebungslicht](https://github.com/Boulmani96/Smart-Garden/assets/74252189/bc58940c-2c4f-4b05-baca-2ad67091d133)

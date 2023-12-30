@@ -19,3 +19,6 @@ In addition, the prototype has an interface that allows the user to display the 
 
 # Demonstration of the developed prototype system
 The image shows the prototype in brightness. The LDR light sensor measures the brightness and controls the LED plant lamp. The pump switches on automatically when the soil moisture sensor reports that the soil is dry. The ultrasonic water level sensor shows how much water is in the tank. The Android app and the display show all data.
+![Helles Umgebungslicht](https://github.com/Boulmani96/Smart-Garden/assets/74252189/66ed9903-708e-475d-b063-f92011dd72a6)
+
+The image shows the prototype in the dark with the LED lighting activated. In this situation, the brightness sensor detects a low ambient brightness, which leads to the activation of the LED plant lamp.

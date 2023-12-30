@@ -8,6 +8,11 @@
 
 # Communication between components
 ![System_Diagram](https://github.com/Boulmani96/Smart-Garden/assets/74252189/225ecb3f-78cb-4f8e-afcf-57282b76d0c3)
+The Android app communicates with the ESP32 server via BLE.
+The ESP32 is responsible for controlling the various sensors and actuators in the system.
+The SensorManager reads the data from the sensors and sends it to the Android app via BLE. 
+The LightController controls the LED plant lamp based on the data from the light sensor and the commands from the Android app. 
+The WaterController controls the water pump based on the data from the soil moisture sensor and the commands from the Android app.
 
 # Description and mapping of the prototype
 In this project, a prototype for a smart garden system will be developed and tested. The prototype enables the recording, control and visualization of environmental data for irrigation and lighting in the garden.

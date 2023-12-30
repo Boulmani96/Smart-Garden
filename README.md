@@ -4,6 +4,9 @@
 - The Android app is responsible for the user interface and data visualization. It allows the user to display the sensor data, switch the LED plant lamp and the water pump on or off.
 ![Software_Abbildung](https://github.com/Boulmani96/Smart-Garden/assets/74252189/7b4760e6-1112-498e-9435-74518aa328ca)
 # Flow diagram
+- The ESP32 server starts a BLE advertisement and starts collecting data and shows it on the display. The water pump is switched on when the floor is dry and remains off otherwise. The LED plant 
+  lamp is switched on if there is not enough light from outside and remains off otherwise. If a user connects to the ESP32 server via the Android app, the recorded data is transferred to the app 
+   and displayed. The user can also use the app to control the water pump and the LED plant lamp.
 ![Diagramm drawio](https://github.com/Boulmani96/Smart-Garden/assets/74252189/dc19e00c-a363-4231-8677-03ad46e9a8ba)
 
 # Communication between components
